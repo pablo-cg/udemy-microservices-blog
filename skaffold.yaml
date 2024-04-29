@@ -1,0 +1,64 @@
+apiVersion: skaffold/v4beta10
+kind: Config
+manifests:
+  rawYaml:
+    - ./infra/k8s/*
+deploy:
+  kubectl: {}
+build:
+  local:
+    push: false
+  artifacts:
+    - image: cuevasgpablo/client
+      context: client
+      sync:
+        manual:
+          - src: src/**/*.*
+            dest: .
+      docker:
+        dockerfile: dockerfile
+
+    - image: cuevasgpablo/comments
+      context: comments
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+      docker:
+        dockerfile: dockerfile
+
+    - image: cuevasgpablo/event-bus
+      context: event-bus
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+      docker:
+        dockerfile: dockerfile
+
+    - image: cuevasgpablo/moderation
+      context: moderation
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+      docker:
+        dockerfile: dockerfile
+
+    - image: cuevasgpablo/posts
+      context: posts
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+      docker:
+        dockerfile: dockerfile
+
+    - image: cuevasgpablo/query
+      context: query
+      sync:
+        manual:
+          - src: '*.js'
+            dest: .
+      docker:
+        dockerfile: dockerfile
